@@ -152,11 +152,3 @@ Do not add production credentials, secret keys or confidential customer data to 
 The main technical challenge was implementing the **one-to-many relationship between orders and ordered products**, including a quantity for each product on each order. This was addressed with a database view and the related Oracle APEX input form, with guidance from the project instructor.
 
 The project also provided hands-on experience translating business requirements into relational data structures and developing database-backed pages in the Oracle APEX environment.
-
-## Next improvements
-
-- Add the actual **APEX application export** and **Oracle SQL DDL**.
-- Verify the included **ER diagram** against the physical schema and exported DDL.
-- Add a small set of anonymized sample data for reproducible testing.
-- Document input validation, privileges and authorization rules, if implemented.
-- Verify the order-line entry workflow and identifier-generation constraints against the exported SQL.
