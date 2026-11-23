@@ -43,7 +43,9 @@ This is the business workflow gathered during requirements analysis; it should n
 
 The documented reporting interface includes charts for **inventory by product**, **monthly company income**, and **customers ranked by total order value**.
 
-![Inventory and revenue charts](screenshots/inventory-revenue-charts.png)
+![Inventory and revenue charts](screenshots/inventory-by-product-chart.png)
+![Monthly income chart](screenshots/monthly-income-chart.png)
+
 ![Top customers report](screenshots/top-customers-chart.png)
 
 ### Customer and product management
@@ -87,13 +89,27 @@ The project uses a relational Oracle database designed around entities such as:
 - Executors
 - Orders and their product line items
 
-The original project specifies primary-key/foreign-key relationships and normalization as design requirements. **The actual DDL and ER diagram have not yet been supplied in this repository**, so the complete schema and exact constraints cannot currently be independently verified.
+The original project specifies primary-key/foreign-key relationships and normalization as design requirements. The conceptual ER diagram is included below. **The actual DDL has not yet been supplied in this repository**, so the physical schema and exact constraints cannot currently be independently verified.
+
+![Database entity relationship diagram](screenshots/database-erd.png)
+
+Selected table-definition screenshots illustrate the Oracle implementation:
+
+![Order header table columns](screenshots/order-table.png)
+![Product table columns](screenshots/product-table.png)
 
 ### Automatically generated identifiers
 
 The database design describes **Oracle sequences and triggers** for generating prefixed identifiers. For example, a product identifier is formed by concatenating a prefix such as `PRO` with a sequence-generated value.
 
-The source document mentions `NOCACHE` and an upper sequence bound of `9999`. The SQL implementation itself should be reviewed in the database scripts before those settings are treated as confirmed or production-ready.
+A screenshot of the `PRODUCT_NEXTVAL` sequence shows a minimum value of 1, increment of 1, and cache size 0. The original written report describes an upper sequence bound of 9999, but the screenshot shows a much larger maximum; therefore the screenshot and report differ. The SQL implementation itself should be reviewed before treating any settings as confirmed or production-ready.
+
+![Product ID trigger](screenshots/product-id-trigger.png)
+![Product sequence settings](screenshots/product-sequence-settings.png)
+
+The `ORDER_PRODUCT` view screenshot shows a join between `INSERT_PRODUCTS`, `ORDER_CUSTOMER`, and `PRODUCT`:
+
+![Order product SQL view](screenshots/order-product-view-sql.png)
 
 ## Technology stack
 
@@ -109,7 +125,8 @@ oracle-apex-order-inventory-management/
 ├── README.md
 ├── screenshots/
 │   ├── home-dashboard.png
-│   ├── inventory-revenue-charts.png
+│   ├── inventory-by-product-chart.png
+│   ├── monthly-income-chart.png
 │   ├── top-customers-chart.png
 │   └── ...
 ├── apex/                 # Add exported APEX application files here
@@ -139,7 +156,7 @@ The project also provided hands-on experience translating business requirements 
 ## Next improvements
 
 - Add the actual **APEX application export** and **Oracle SQL DDL**.
-- Include an **ER diagram** documenting the precise table relationships.
+- Verify the included **ER diagram** against the physical schema and exported DDL.
 - Add a small set of anonymized sample data for reproducible testing.
 - Document input validation, privileges and authorization rules, if implemented.
 - Verify the order-line entry workflow and identifier-generation constraints against the exported SQL.
@@ -147,3 +164,7 @@ The project also provided hands-on experience translating business requirements 
 ## Project context
 
 Developed by **Mateo Sheme** as an academic project informed by discussions about a real food packaging and distribution company's operational processes. The repository describes a prototype and does not represent a claim that the application was deployed to production.
+
+## Screenshot gallery
+
+All 26 supplied images have been saved under `screenshots/` at their provided resolution. The main README links the most useful interface, database design, and code screenshots; additional table and schema screenshots remain available in the folder. Contact details visible in some screenshots were covered in these public-facing copies.
